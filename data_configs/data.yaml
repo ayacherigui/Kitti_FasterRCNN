@@ -1,0 +1,11 @@
+TRAIN_DIR_IMAGES: data/train_images
+TRAIN_DIR_LABELS: data/train_xmls
+VALID_DIR_IMAGES: data/valid_images
+VALID_DIR_LABELS: data/valid_xmls
+TEST_DIR_IMAGES: /home/aya/Kitti-ObjectDetection/kitty/test/images
+
+NC: 15
+CLASSES: ['Cyclist', 'DontCare', 'Misc', 'Person_sitting', 'Tram', 'Truck', 'Van', 'car', 'person', 'Tram', 'People', 'Bus', 'Vehicle-with-trailer', 'Special-vehicle', 'Pickup']
+
+# Whether to save the predictions of the validation set while training.
+SAVE_VALID_PREDICTION_IMAGES: True
