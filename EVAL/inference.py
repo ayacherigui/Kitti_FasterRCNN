@@ -45,9 +45,9 @@ def main(args):
     images_path = args['images-path']
     path = args['result-dir']
 
-    NUM_CLASSES = 15
-    KITTI_INSTANCE_CATEGORY_NAMES = {0: u'Cyclist', 1: u'DontCare', 2: u'Misc', 3: u'Person_sitting', 4: u'Tram', 5: u'Truck', 6: 'Van', 7: u'car', 8: u'person', 9: u'Tram',
-                                     10: u'People', 11: u'Bus', 12: u'Vehicle-with-trailer', 13: u'Special-vehicle', 15: u'Pickup'}
+    NUM_CLASSES = 9
+    KITTI_INSTANCE_CATEGORY_NAMES = {0: u'Cyclist', 1: u'DontCare', 2: u'Misc',
+                                     3: u'Person_sitting', 4: u'Tram', 5: u'Truck', 6: 'Van', 7: u'car', 8: u'person'}
 
     DEVICE = torch.device('cpu')
 
