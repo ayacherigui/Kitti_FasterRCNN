@@ -4,6 +4,8 @@ from albumentations.pytorch import ToTensorV2
 from torchvision import transforms as transforms
 
 # Define the training tranforms
+
+
 def get_train_aug():
     return A.Compose([
         A.MotionBlur(blur_limit=3, p=0.5),
@@ -17,7 +19,7 @@ def get_train_aug():
         A.RandomFog(p=0.2),
         # A.RandomSunFlare(p=0.1),
         # `RandomScale` for multi-res training,
-        # `scale_factor` should not be too high, else may result in 
+        # `scale_factor` should not be too high, else may result in
         # negative convolutional dimensions.
         # A.RandomScale(scale_limit=0.15, p=0.1),
         # A.Normalize(
@@ -29,6 +31,7 @@ def get_train_aug():
         'format': 'pascal_voc',
         'label_fields': ['labels']
     })
+
 
 def get_train_transform():
     return A.Compose([
@@ -43,6 +46,8 @@ def get_train_transform():
     })
 
 # Define the validation transforms
+
+
 def get_valid_transform():
     return A.Compose([
         # A.Normalize(
@@ -51,9 +56,24 @@ def get_valid_transform():
         # ),
         ToTensorV2(p=1.0),
     ], bbox_params={
-        'format': 'pascal_voc', 
+        'format': 'pascal_voc',
         'label_fields': ['labels']
     })
+# Define the test transforms
+
+
+def get_test_transform():
+    return A.Compose([
+        # A.Normalize(
+        #     (0.485, 0.456, 0.406),
+        #     (0.229, 0.224, 0.225)
+        # ),
+        ToTensorV2(p=1.0),
+    ], bbox_params={
+        'format': 'pascal_voc',
+        'label_fields': ['labels']
+    })
+
 
 def infer_transforms(image):
     # Define the torchvision image transforms.

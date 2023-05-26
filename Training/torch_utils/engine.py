@@ -9,20 +9,22 @@ from torch_utils.coco_eval import CocoEvaluator
 from torch_utils.coco_utils import get_coco_api_from_dataset
 from utils.general import save_validation_results
 
+
 def train_one_epoch(
-    model, 
-    optimizer, 
-    data_loader, 
-    device, 
-    epoch, 
+    model,
+    optimizer,
+    data_loader,
+    device,
+    epoch,
     train_loss_hist,
-    print_freq, 
+    print_freq,
     scaler=None,
     scheduler=None
 ):
     model.train()
     metric_logger = utils.MetricLogger(delimiter="  ")
-    metric_logger.add_meter("lr", utils.SmoothedValue(window_size=1, fmt="{value:.6f}"))
+    metric_logger.add_meter("lr", utils.SmoothedValue(
+        window_size=1, fmt="{value:.6f}"))
     header = f"Epoch: [{epoch}]"
 
     # List to store batch losses.
@@ -77,10 +79,14 @@ def train_one_epoch(
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
 
         batch_loss_list.append(loss_value)
-        batch_loss_cls_list.append(loss_dict_reduced['loss_classifier'].detach().cpu())
-        batch_loss_box_reg_list.append(loss_dict_reduced['loss_box_reg'].detach().cpu())
-        batch_loss_objectness_list.append(loss_dict_reduced['loss_objectness'].detach().cpu())
-        batch_loss_rpn_list.append(loss_dict_reduced['loss_rpn_box_reg'].detach().cpu())
+        batch_loss_cls_list.append(
+            loss_dict_reduced['loss_classifier'].detach().cpu())
+        batch_loss_box_reg_list.append(
+            loss_dict_reduced['loss_box_reg'].detach().cpu())
+        batch_loss_objectness_list.append(
+            loss_dict_reduced['loss_objectness'].detach().cpu())
+        batch_loss_rpn_list.append(
+            loss_dict_reduced['loss_rpn_box_reg'].detach().cpu())
         train_loss_hist.send(loss_value)
 
         if scheduler is not None:
@@ -103,9 +109,9 @@ def _get_iou_types(model):
 
 @torch.inference_mode()
 def evaluate(
-    model, 
-    data_loader, 
-    device, 
+    model,
+    data_loader,
+    device,
     save_valid_preds=False,
     out_dir=None,
     classes=None,
@@ -133,14 +139,17 @@ def evaluate(
         model_time = time.time()
         outputs = model(images)
 
-        outputs = [{k: v.to(cpu_device) for k, v in t.items()} for t in outputs]
+        outputs = [{k: v.to(cpu_device) for k, v in t.items()}
+                   for t in outputs]
         model_time = time.time() - model_time
 
-        res = {target["image_id"].item(): output for target, output in zip(targets, outputs)}
+        res = {target["image_id"].item(): output for target,
+               output in zip(targets, outputs)}
         evaluator_time = time.time()
         coco_evaluator.update(res)
         evaluator_time = time.time() - evaluator_time
-        metric_logger.update(model_time=model_time, evaluator_time=evaluator_time)
+        metric_logger.update(model_time=model_time,
+                             evaluator_time=evaluator_time)
 
         if save_valid_preds and counter == 1:
             # The validation prediction image which is saved to disk
